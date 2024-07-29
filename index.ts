@@ -2,8 +2,8 @@ import express, { Application } from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 
+import { countryRoutes, dishesRoutes } from './src/routes/index';
 import errorHandler from './src/middlewares/errorHandler';
-import { router } from './src/routes/countries';
 
 dotenv.config();
 
@@ -17,7 +17,9 @@ mongoose
 
 app.use(express.json());
 
-app.use('/countries', router);
+app.use('/countries', countryRoutes);
+
+app.use('/', dishesRoutes);
 
 app.use(errorHandler);
 

@@ -40,7 +40,9 @@ const addCountry = async (
 ): Promise<void> => {
     try {
         const { country, capital } = req.body;
-        const imageUrl = req.file ? `/public/${req.file.fieldname}` : '';
+        const imageUrl = req.file
+            ? `/public/images/${req.file.originalname}`
+            : '';
         const newCountry = new Country({ country, capital, imageUrl });
         await newCountry.save();
         res.status(201).json(newCountry);
@@ -84,7 +86,7 @@ const deleteCountry = async (
         const { id } = req.params;
         const deletedCountry = await Country.findByIdAndDelete(id);
         if (deletedCountry) {
-            res.json(deletedCountry);
+            res.status(200).json(deletedCountry);
         } else {
             res.status(404).json({ message: 'Country not found' });
         }

@@ -2,6 +2,7 @@ import { Router } from 'express';
 
 import {
     addDishes,
+    countDishesByCountry,
     deleteDishes,
     getDishes,
     getDishesByCountryId,
@@ -11,6 +12,8 @@ import {
 const dishesRoutes = Router();
 
 dishesRoutes.get('/dishes', getDishes);
+
+dishesRoutes.get('/dishes/countDishes', countDishesByCountry);
 
 dishesRoutes.get('/dishes/country/:countryId', getDishesByCountryId);
 

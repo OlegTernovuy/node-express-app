@@ -33,6 +33,38 @@ const getCountryById = async (
     }
 };
 
+const searchCountry = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    try {
+        const { search, sortBy } = req.query as {
+            search?: string;
+            sortBy?: 'asc' | 'desc';
+        };
+        const match = search
+            ? {
+                  $or: [
+                      { country: { $regex: search, $options: 'i' } },
+                      { capital: { $regex: search, $options: 'i' } },
+                  ],
+              }
+            : {};
+        const countries = await Country.aggregate([
+            {
+                $match: match,
+            },
+            {
+                $sort: { country: sortBy === 'desc' ? -1 : 1 },
+            },
+        ]);
+        res.status(200).json(countries);
+    } catch (error) {
+        next(error);
+    }
+};
+
 const addCountry = async (
     req: Request,
     res: Response,
@@ -95,10 +127,36 @@ const deleteCountry = async (
     }
 };
 
+const countryWithDishes = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    try {
+        const countries = await Country.aggregate([
+            {
+                $lookup: {
+                    from: 'dishes',
+                    localField: '_id',
+                    foreignField: 'country',
+                    as: 'dishes',
+                },
+            },
+            { $match: { dishes: { $not: { $size: 0 } } } },
+            { $project: { country: 1, capital: 1, imageUrl: 1, dishes: 1 } },
+        ]);
+        res.status(200).json(countries);
+    } catch (error) {
+        next(error);
+    }
+};
+
 export {
     getCountries,
     addCountry,
     getCountryById,
     updateCountry,
     deleteCountry,
+    searchCountry,
+    countryWithDishes,
 };

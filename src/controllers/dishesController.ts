@@ -91,10 +91,36 @@ const deleteDishes = async (
     }
 };
 
+const countDishesByCountry = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    try {
+        const dishesCount = await Dishes.aggregate([
+            { $group: { _id: '$country', totalDishes: { $sum: 1 } } },
+            {
+                $lookup: {
+                    from: 'countries',
+                    localField: '_id',
+                    foreignField: '_id',
+                    as: 'country',
+                },
+            },
+            { $unwind: '$country' },
+            { $project: { country: '$country.country', totalDishes: 1 } },
+        ]);
+        res.json(dishesCount);
+    } catch (error) {
+        next(error);
+    }
+};
+
 export {
     getDishes,
-    getDishesByCountryId,
     addDishes,
     updateDishes,
     deleteDishes,
+    getDishesByCountryId,
+    countDishesByCountry,
 };

@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import { validationResult } from 'express-validator';
 
 import { Country } from '../models/countryModel';
 
@@ -70,6 +71,10 @@ const addCountry = async (
     res: Response,
     next: NextFunction
 ): Promise<void> => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next(errors);
+    }
     try {
         const { country, capital } = req.body;
         const imageUrl = req.file

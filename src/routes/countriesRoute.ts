@@ -1,3 +1,4 @@
+import { check } from 'express-validator';
 import { Router } from 'express';
 
 import {
@@ -22,7 +23,15 @@ countryRoutes.get('/search', searchCountry);
 
 countryRoutes.get('/:id', getCountryById);
 
-countryRoutes.post('/', upload.single('images'), addCountry);
+countryRoutes.post(
+    '/',
+    upload.single('images'),
+    [
+        check('country', 'Country is required').notEmpty(),
+        check('capital', 'Capital is required').notEmpty(),
+    ],
+    addCountry
+);
 
 countryRoutes.patch('/:id', updateCountry);
 

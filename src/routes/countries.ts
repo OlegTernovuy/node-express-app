@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import multer from 'multer';
 
 import {
     addCountry,
@@ -9,16 +8,7 @@ import {
     updateCountry,
 } from '../controllers/countries';
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, './public/images');
-    },
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + '-' + file.originalname);
-    },
-});
-
-const upload = multer({ storage: storage });
+import { upload } from '../utils/imageStorege';
 
 const router = Router();
 
@@ -26,7 +16,7 @@ router.get('/', getCountries);
 
 router.get('/:id', getCountryById);
 
-router.post('/', upload.single('image'), addCountry);
+router.post('/', upload.single('images'), addCountry);
 
 router.patch('/:id', updateCountry);
 

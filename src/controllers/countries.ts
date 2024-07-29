@@ -1,17 +1,25 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 
 import { Country } from '../models/countryModel';
 
-const getCountries = async (req: Request, res: Response): Promise<void> => {
+const getCountries = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
     try {
         const countries = await Country.find();
         res.status(200).json(countries);
     } catch (error) {
-        res.status(500).json({ message: 'Error fetching countries', error });
+        next(error);
     }
 };
 
-const getCountryById = async (req: Request, res: Response): Promise<void> => {
+const getCountryById = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
     try {
         const { id } = req.params;
         const country = await Country.findById(id);
@@ -20,24 +28,32 @@ const getCountryById = async (req: Request, res: Response): Promise<void> => {
         } else {
             res.status(404).json({ message: 'Country not found' });
         }
-    } catch (error) {
-        res.status(500).json({ message: 'Error fetching country', error });
+    } catch (error: any) {
+        next(error);
     }
 };
 
-const addCountry = async (req: Request, res: Response): Promise<void> => {
+const addCountry = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
     try {
         const { country, capital } = req.body;
         const imageUrl = req.file ? `/public/${req.file.fieldname}` : '';
         const newCountry = new Country({ country, capital, imageUrl });
         await newCountry.save();
         res.status(201).json(newCountry);
-    } catch (error) {
-        res.status(500).json({ message: 'Error adding country', error });
+    } catch (error: any) {
+        next(error);
     }
 };
 
-const updateCountry = async (req: Request, res: Response): Promise<void> => {
+const updateCountry = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
     try {
         const { id } = req.params;
         const { country, capital } = req.body;
@@ -55,11 +71,15 @@ const updateCountry = async (req: Request, res: Response): Promise<void> => {
             res.status(404).json({ message: 'Country not found' });
         }
     } catch (error) {
-        res.status(500).json({ message: 'Error updating country', error });
+        next(error);
     }
 };
 
-const deleteCountry = async (req: Request, res: Response): Promise<void> => {
+const deleteCountry = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
     try {
         const { id } = req.params;
         const deletedCountry = await Country.findByIdAndDelete(id);
@@ -69,7 +89,7 @@ const deleteCountry = async (req: Request, res: Response): Promise<void> => {
             res.status(404).json({ message: 'Country not found' });
         }
     } catch (error) {
-        res.status(500).json({ message: 'Error deleting country', error });
+        next(error);
     }
 };
 

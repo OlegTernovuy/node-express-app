@@ -195,6 +195,50 @@ dishesRoutes.get('/dishes/country/:countryId', getDishesByCountryId);
 
 dishesRoutes.post('/dishes', addDishes);
 
+/**
+ * @openapi
+ * /api/micro:
+ *   post:
+ *     tags:
+ *       - Micro
+ *     summary: Register a user
+ *     description: Create a new user and default set status disabled
+ *     requestBody:
+ *         required: true
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 email:
+ *                   type: string
+ *                   example: email@test.com
+ *                 password:
+ *                   type: string
+ *                   example: password
+ *     responses:
+ *       201:
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: User registered successfully. Awaiting approval
+ *       500:
+ *         description: Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Some Server Error
+ */
+
 dishesRoutes.patch('/dishes/:id', updateDishes);
 
 dishesRoutes.delete('/dishes/:id', deleteDishes);

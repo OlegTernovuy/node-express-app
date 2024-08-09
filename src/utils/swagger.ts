@@ -8,7 +8,7 @@ const swaggerSpec = swaggerJsDoc({
             version: '1.0.0',
             description: 'A CRUD Bookshelf project',
         },
-        servers: [{ url: 'https://loki-api2.axels.com.ua' }],
+        servers: [{ url: 'https://loki-api2.axels.com.ua' }, { url: 'http://localhost:3100' }],
     },
     apis: [`${__dirname}/../routes/*.ts`, `${__dirname}/../routes/*.js`],
 });

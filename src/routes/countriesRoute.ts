@@ -15,6 +15,23 @@ import { upload } from '../utils/imageStorege';
 
 const countryRoutes = Router();
 
+/**
+ * @swagger
+ * /books:
+ *   get:
+ *     summary: Returns all books
+ *     tags: [Books]
+ *     responses:
+ *       200:
+ *         description: the list of books
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Book'
+ */
+
 countryRoutes.get('/', getCountries);
 
 countryRoutes.get('/countryWithDishes', countryWithDishes);

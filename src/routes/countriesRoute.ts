@@ -16,38 +16,20 @@ import { upload } from '../utils/imageStorege';
 const countryRoutes = Router();
 
 /**
- * @openapi
- * paths:
- *   /countries/countryWithDishes:
- *     post:
- *       tags:
- *         - Auth
- *       summary: Register a user
- *       description: Create a new user and default set status disabled
- *       requestBody:
- *           required: true
- *           content:
- *             application/json:
- *               schema:
- *                 type: object
- *                 properties:
- *                   email:
- *                     type: string
- *                     example: email@test.com
- *                   password:
- *                     type: string
- *                     example: password
- *       responses:
- *         201:
- *           description: OK
- *           content:
- *             application/json:
- *               schema:
- *                 type: object
- *                 properties:
- *                   message:
- *                     type: string
- *                     example: User registered successfully. Awaiting approval      
+ * @swagger
+ * /books:
+ *   get:
+ *     summary: Returns all books
+ *     tags: [Books]
+ *     responses:
+ *       200:
+ *         description: the list of books
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Book'
  */
 
 countryRoutes.get('/', getCountries);
@@ -57,6 +39,30 @@ countryRoutes.get('/countryWithDishes', countryWithDishes);
 countryRoutes.get('/search', searchCountry);
 
 countryRoutes.get('/:id', getCountryById);
+
+/**
+ * @swagger
+ * /books/{id}:
+ *   get:
+ *     summary: Gets a book by id
+ *     tags: [Books]
+ *     parameters:
+ *       - in : path
+ *         name: id
+ *         description: id of book
+ *         schema:
+ *           type: integer
+ *         required: true
+ *     responses:
+ *       200:
+ *         description: book info.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Book'
+ *       404:
+ *         description: book is not found
+ */
 
 countryRoutes.post(
     '/',

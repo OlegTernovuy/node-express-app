@@ -61,10 +61,10 @@ const swaggerSpec = swaggerJsDoc({
         },
     },
     apis: [
-      path.join(__dirname, '../routes/*.js'),  // Шлях до всіх .js файлів у папці routes
-      path.join(__dirname, '../routes/*.ts'),  // Шлях до всіх .ts файлів у папці routes
-      path.join(__dirname, './swagger.js'),    // Шлях до файлу swagger.js у папці utils
-      path.join(__dirname, './swagger.ts'),    // Шлях до файлу swagger.ts у папці utils
+        `${__dirname}/../routers/*.js`,
+        `${__dirname}/../routers/*.ts`,
+        `${__dirname}/swagger.js`,
+        `${__dirname}/swagger.ts`,
     ],
 });
 

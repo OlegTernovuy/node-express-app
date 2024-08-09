@@ -1,5 +1,5 @@
 /**
- * @swagger
+ * @openapi
  *   /auth/register:
  *     post:
  *       tags:

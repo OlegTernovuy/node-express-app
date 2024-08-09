@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 
 import { countryRoutes, dishesRoutes } from './src/routes/index';
 import errorHandler from './src/middlewares/errorHandler';
+import swaggerSpec from './src/utils/swagger';
 // import swaggerSpec from './src/swagger';
 
 dotenv.config();
@@ -16,20 +17,20 @@ const port = process.env.PORT || 4200;
 const swaggerUICss =
     'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.3.0/swagger-ui.min.css';
 
-const options = {
-    definition: {
-        openapi: '3.0.0',
-        info: {
-            title: 'Docs',
-            version: '1.0.0',
-            description: 'Documentation for axels-loki-api',
-        },
-        servers: [{ url: 'https://loki-api2.axels.com.ua/api' }],
-    },
-    apis: ['src/routes/*.ts'],
-};
+// const options = {
+//     definition: {
+//         openapi: '3.0.0',
+//         info: {
+//             title: 'Docs',
+//             version: '1.0.0',
+//             description: 'Documentation for axels-loki-api',
+//         },
+//         servers: [{ url: 'https://loki-api2.axels.com.ua/api' }],
+//     },
+//     apis: ['src/routes/*.ts'],
+// };
 
-const swaggerSpec = swaggetJsdoc(options);
+// const swaggerSpec = swaggetJsdoc(options);
 
 mongoose
     .connect(process.env.MONGO_URL as string)
@@ -38,14 +39,17 @@ mongoose
 
 app.use(express.json());
 
+// app.use(
+//     '/docs',
+//     swaggerUi.serve,
+//     swaggerUi.setup(swaggerSpec, { customCssUrl: swaggerUICss })
+// );
+
 app.use(
-    '/docs',
+    '/api-docs',
     swaggerUi.serve,
     swaggerUi.setup(swaggerSpec, { customCssUrl: swaggerUICss })
 );
-
-// app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec, { customCssUrl: swaggerUICss }))
-
 
 app.use('/countries', countryRoutes);
 

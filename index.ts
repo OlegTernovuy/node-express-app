@@ -13,7 +13,7 @@ const app: Application = express();
 const port = process.env.PORT || 4200;
 
 const swaggerUICss =
-    'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.0.0/swagger-ui.min.css';
+    'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.4.0/swagger-ui.min.css';
 
 mongoose
     .connect(process.env.MONGO_URL as string)

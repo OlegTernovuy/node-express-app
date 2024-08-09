@@ -25,7 +25,7 @@ const options = {
         },
         servers: [{ url: 'https://loki-api2.axels.com.ua/api' }],
     },
-    apis: ['src/routes/*.ts'],
+    apis: [`${__dirname}/routes/*.ts`],
 };
 
 const swaggerSpec = swaggetJsdoc(options);

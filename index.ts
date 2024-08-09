@@ -8,7 +8,7 @@ import errorHandler from './src/middlewares/errorHandler';
 import swaggerSpec from './src/utils/swagger';
 
 const swaggerUICss =
-    'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.4.0/swagger-ui.min.css';
+    'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.3.0/swagger-ui.min.css';
 
 const customCss =
     '.swagger-ui .opblock .opblock-summary-path-description-wrapper { align-items: center; display: flex; flex-wrap: wrap; gap: 0 10px; padding: 0 10px; width: 100%; }';
@@ -29,7 +29,8 @@ app.use(
     '/api-docs',
     swaggerUi.serve,
     swaggerUi.setup(swaggerSpec, {
-        customCss: swaggerUICss,
+        customCssUrl: swaggerUICss,
+        customCss: '',
     })
 );
 
